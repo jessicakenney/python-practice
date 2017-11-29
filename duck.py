@@ -4,20 +4,28 @@ import sqlite3
 
 class Duck:
     #constructor
-    def __init__(self, color = "white"):
-        self._color = color
+    def __init__(self, **kwargs):
+        #self._color = kwargs.get('color','white') #default white
+        self.variables = kwargs
 
     def quack(self):
         print('Quaaack!')
+        return 'Quaaack!'
 
     def walk(self):
-        print('Walks like a duck.')
+        print ('Walks like a duck.')
 
-    def set_color(self,color):
-        self._color = color
+    #def set_color(self,color):
+    #    self.variables['color'] = color
 
-    def get_color(self):
-        return self._color
+    #def get_color(self):
+    #    return self.variables.get('color',None)
+
+    def set_variable(self, k, v):
+        self.variables[k] = v
+
+    def get_variable(self, k):
+        return self.variables.get(k, None)
 
 
 def setupDB():
@@ -34,16 +42,34 @@ def setupDB():
         print(row)
 
 def main():
-    donald = Duck('blue')
+    donald = Duck(color = 'blue')
     donald.quack()
     donald.walk()
-    print('Color:', donald.get_color())
+    donald.set_variable('nose','bill')
+
+    #print('Color:', donald.get_color())
+    print('Color:', donald.get_variable('color'))
+    print('Nose:', donald.get_variable('nose'))
+
     #returns filehandle object(iterable), read mode default, r,w,a(ppend),r+
     fh = open('lines.txt','r')
     outfile = open('out.txt','w')
     for line in fh.readlines():
         print(line,file = outfile, end = '')
     setupDB()
+
+    import random
+    print('Random: ', random.randint(1,1000))
+    x = list(range(25))
+    print(x)
+    random.shuffle(x)
+    print(x)
+
+    import datetime
+    now = datetime.datetime.now()
+    print(now.year, now.month, now.day)
+
+
     print('Done.')
 
 if __name__ == "__main__": main()
